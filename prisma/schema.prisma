@@ -20,7 +20,7 @@ model language {
   name   String?  @db.VarChar(100)
   movies Movie[]
 
-  @@map("languages")
+  @@map("Languages")
 }
 
 model Movie {
