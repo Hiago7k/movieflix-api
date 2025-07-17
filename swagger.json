@@ -5,26 +5,94 @@
         "descripton": "API responsavel por gerenciar os filmes do Movieflix",
         "version": "1.0.0"
     },
-    
     "paths": {
         "/movies": {
-            "get": { 
-                "tags": 
-                    ["Movie"],
-                "sumary": "Obter todos os filmes",
+            "get": {
+                "tags": [
+                    "Movie"
+                ],
+                "summary": "Obter todos os filmes",
                 "responses": {
                     "200": {
-                        "descripton": "Retorna uma lista de flmes",
+                        "description": "Retorna uma lista de flmes",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
-                                    "items" : {
-                                        "$ref" : "#/components/schemas/Movie"
+                                    "items": {
+                                        "$ref": "#/components/schemas/Movie"
                                     }
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/movies/{id}": {
+            "put": {
+                "tags": [
+                    "Movie"
+                ],
+                "sumary": "Atualizar um filme",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "descripton": "ID do filme a ser atualizado",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MovieInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Filme atualizado com sucesso"
+                    },
+                    "404": {
+                        "description": "Filme nao encontrado"
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar o registro do filme"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Movie"
+                ],
+                "summary": "Remover um filme",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "descripton": "ID do filme a ser removido",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Filme removido com sucesso"
+                    },
+                    "404": {
+                        "description": "O Filme nao foi encontrado"
+                    },
+                    "500": {
+                        "description": "Nao foi possivel remover o filme"
                     }
                 }
             }
@@ -44,8 +112,39 @@
                         "descripton": "Titulo do filme"
                     }
                 }
+            },
+            "MovieInput": {
+                "type": "object",
+                "required": [
+                    "title",
+                    "genre_id",
+                    "language_id",
+                    "release_date"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "descripton": "Titulo do filme"
+                    },
+                    "genre_id": {
+                        "type": "integer",
+                        "descripton": "Id do genero filme"
+                    },
+                    "language_id": {
+                        "type": "integer",
+                        "descripton": "ID da lingua do filme"
+                    },
+                    "oscar_count": {
+                        "type": "integer",
+                        "descripton": "Qunatidade de oscars que o filme ganhou"
+                    },
+                    "release_date": {
+                        "type": "string",
+                        "format": "date",
+                        "descripton": "Data de lancamento do filme"
+                    }
+                }
             }
         }
     }
-
 }
